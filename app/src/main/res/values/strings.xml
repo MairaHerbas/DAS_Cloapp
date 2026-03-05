@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">CloApp</string>
+    <string name="menu_armario">Mi Armario</string>
+    <string name="menu_anadir">Añadir Prenda</string>
+    <string name="titulo_armario">¡Aquí irá tu ropa!</string>
+    <string name="titulo_anadir">Añadir Nueva Prenda</string>
+    <string name="hint_nombre">¿Qué prenda es?</string>
+    <string name="hint_categoria">Categoría</string>
+    <string name="btn_guardar">GUARDAR PRENDA</string>
+    <string name="msg_guardado">¡Prenda guardada!</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CloApp</string>
+    <string name="menu_armario">My Closet</string>
+    <string name="menu_anadir">Add Item</string>
+    <string name="titulo_armario">Your clothes here!</string>
+    <string name="titulo_anadir">Add New Item</string>
+    <string name="hint_nombre">What item is it?</string>
+    <string name="hint_categoria">Category</string>
+    <string name="btn_guardar">SAVE ITEM</string>
+    <string name="msg_guardado">Item saved!</string>
+</resources>
