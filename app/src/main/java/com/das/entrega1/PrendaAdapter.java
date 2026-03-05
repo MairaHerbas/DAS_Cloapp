@@ -1,38 +1,72 @@
 package com.das.entrega1;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class PrendaAdapter extends ArrayAdapter<Prenda> {
+public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaViewHolder> {
 
-    public PrendaAdapter(Context context, ArrayList<Prenda> prendas) {
-        super(context, 0, prendas);
+    private ArrayList<Prenda> listaRopa;
+    private OnItemClickListener listener;
+
+    // 1. Creamos una "antena" (interfaz) para escuchar los clics
+    public interface OnItemClickListener {
+        void onClicNormal(Prenda prendaSeleccionada);
+        void onClicLargo(Prenda prendaSeleccionada, int posicion);
     }
 
+    // 2. Constructor
+    public PrendaAdapter(ArrayList<Prenda> listaRopa, OnItemClickListener listener) {
+        this.listaRopa = listaRopa;
+        this.listener = listener;
+    }
+
+    // 3. Inflamos el diseño de la tarjeta (item_prenda.xml)
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Obtenemos la prenda actual
-        Prenda prendaActual = getItem(position);
+    public PrendaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.prenda, parent, false);
+        return new PrendaViewHolder(view);
+    }
 
-        // Si la vista no existe, la "inflamos" usando nuestro diseño de CardView
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.prenda, parent, false);
+    // 4. Rellenamos los datos de la tarjeta en la posición actual
+    @Override
+    public void onBindViewHolder(@NonNull PrendaViewHolder holder, int position) {
+        Prenda prendaActual = listaRopa.get(position);
+
+        holder.tvNombre.setText(prendaActual.getNombre());
+        holder.tvCategoria.setText(prendaActual.getCategoria());
+
+        // Configuramos los clics
+        holder.itemView.setOnClickListener(v -> listener.onClicNormal(prendaActual));
+
+        holder.itemView.setOnLongClickListener(v -> {
+            listener.onClicLargo(prendaActual, position);
+            return true; // true significa que ya hemos gestionado el clic largo
+        });
+    }
+
+    // 5. Decimos cuántos elementos hay en total
+    @Override
+    public int getItemCount() {
+        return listaRopa.size();
+    }
+
+    // --- CLASE INTERNA VIEWHOLDER ---
+    // Esta clase "sujeta" los elementos visuales para no buscarlos Toodo el rato
+    public static class PrendaViewHolder extends RecyclerView.ViewHolder {
+        TextView tvNombre, tvCategoria;
+
+        public PrendaViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvNombre = itemView.findViewById(R.id.tvNombrePrenda);
+            tvCategoria = itemView.findViewById(R.id.tvCategoriaPrenda);
         }
-
-        // Enlazamos con los TextView de la tarjeta
-        TextView tvNombre = convertView.findViewById(R.id.tvNombrePrenda);
-        TextView tvCategoria = convertView.findViewById(R.id.tvCategoriaPrenda);
-
-        // Ponemos los textos
-        tvNombre.setText(prendaActual.getNombre());
-        tvCategoria.setText(prendaActual.getCategoria());
-
-        return convertView;
     }
 }
