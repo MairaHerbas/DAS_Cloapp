@@ -2,10 +2,55 @@
     <string name="app_name" translatable="false">CloApp</string>
     <string name="menu_armario">Mi Armario</string>
     <string name="menu_anadir">Añadir Prenda</string>
+    <string name="menu_crear_conjunto">Crear Conjunto</string>
     <string name="titulo_armario">¡Aquí irá tu ropa!</string>
     <string name="titulo_anadir">Añadir Nueva Prenda</string>
     <string name="hint_nombre">¿Qué prenda es?</string>
     <string name="hint_categoria">Categoría</string>
     <string name="btn_guardar">GUARDAR PRENDA</string>
     <string name="msg_guardado">¡Prenda guardada!</string>
+
+    <string name="btn_seleccionar_foto">SELECCIONAR FOTO</string>
+    <string name="titulo_modificar">Modificar Prenda</string>
+    <string name="label_nombre_prenda">Nombre de la prenda:</string>
+    <string name="label_categoria">Categoría:</string>
+    <string name="btn_actualizar">ACTUALIZAR PRENDA</string>
+    <string name="msg_error_campos">Por favor, rellena todos los campos</string>
+    <string name="msg_error_bd">Error al guardar en la base de datos</string>
+    <string name="msg_bd_ok">¡Prenda guardada en la base de datos!</string>
+    <string name="pregunta_borrar">¿Quieres borrar esta prenda?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="msg_borrado">Prenda eliminada</string>
+    <string name="nav_header_title">Mi Armario Digital</string>
+    <string name="menu_idioma_title">Cambiar Idioma</string>
+
+    <string-array name="categorias_ropa">
+        <item>Camisa, camiseta, abrigo</item>
+        <item>Pantalones, falda, short</item>
+        <item>Zapatos, zapatillas, botas, sandalias</item>
+    </string-array>
+    <string name="titulo_crear_conjunto">Crea tu Conjunto</string>
+    <string name="lbl_arriba">1. Parte de arriba:</string>
+    <string name="lbl_abajo">2. Parte de abajo:</string>
+    <string name="lbl_calzado">3. Calzado:</string>
+    <string name="btn_guardar_conjunto">GUARDAR CONJUNTO</string>
+    <string name="elige_categoria">Elige la categoría</string>
+
+    <string name="titulo_mis_conjuntos">Mis Conjuntos Guardados</string>
+    <string name="msg_conjunto_guardado">¡Conjunto guardado con éxito!</string>
+    <string name="msg_error_conjunto">Error al guardar el conjunto</string>
+    <string name="menu_mis_conjuntos">Mis Conjuntos</string>
+
+    <string name="titulo_borrar_prenda">Eliminar prenda</string>
+    <string name="msg_borrar_prenda">¿Seguro que quieres borrar \'%1$s\'?</string>
+    <string name="titulo_borrar_conjunto">Eliminar outfit</string>
+    <string name="msg_borrar_conjunto">¿Seguro que quieres borrar este conjunto?</string>
+    <string name="btn_si_borrar">Sí, borrar</string>
+    <string name="btn_cancelar">Cancelar</string>
+
+    <string name="cat_arriba">Parte de arriba</string>
+    <string name="cat_abajo">Parte de abajo</string>
+    <string name="cat_calzado">Calzado</string>
+
 </resources>

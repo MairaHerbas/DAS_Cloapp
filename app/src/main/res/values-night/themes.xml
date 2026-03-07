@@ -1,7 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Entrega1" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Theme.Entrega1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/rosa_oscuro</item>
+        <item name="colorPrimaryVariant">@color/malva_texto</item>
+        <item name="colorOnPrimary">@color/blanco_puro</item> <item name="colorSecondary">@color/menta_suave</item>
+        <item name="colorSecondaryVariant">@color/rosa_claro</item>
+        <item name="colorOnSecondary">@color/malva_texto</item>
+
+        <item name="android:windowBackground">@color/blanco_puro</item>
+
+        <item name="android:textColor">@color/malva_texto</item>
+
     </style>
 </resources>

@@ -3,9 +3,17 @@
     <item
         android:id="@+id/nav_armario"
         android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Mi Armario" />
+        android:title="@string/menu_armario" />
     <item
         android:id="@+id/nav_anadir"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="Añadir Prenda" />
+        android:title="@string/menu_anadir" />
+    <item
+        android:id="@+id/nav_crear_conjunto"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/menu_crear_conjunto" />
+    <item
+        android:id="@+id/nav_mis_conjuntos"
+        android:icon="@drawable/conjuntos"
+        android:title="@string/menu_mis_conjuntos" />
 </menu>

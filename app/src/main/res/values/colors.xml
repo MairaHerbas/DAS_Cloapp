@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="menta_suave">#D8E2DC</color>
+    <color name="blanco_puro">#FFFFFF</color>
+    <color name="rosa_claro">#FFCAD4</color>
+    <color name="rosa_oscuro">#F4ACB7</color>
+    <color name="malva_texto">#9D8189</color>
 </resources>

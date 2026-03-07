@@ -36,8 +36,10 @@ public class ArmarioFragment extends Fragment {
         adaptador = new PrendaAdapter(listaRopa, new PrendaAdapter.OnItemClickListener() {
 
             // --- CLIC NORMAL: Editar Prenda ---
+            // --- CLIC NORMAL: Editar Prenda ---
             @Override
             public void onClicNormal(Prenda prendaSeleccionada) {
+                // 1. Preparamos el fragmento a abrir (EditarFragment)
                 ModificarFragment modificarFragment = new ModificarFragment();
                 Bundle mochila = new Bundle();
                 mochila.putInt("ID", prendaSeleccionada.getId());
@@ -45,28 +47,43 @@ public class ArmarioFragment extends Fragment {
                 mochila.putString("CATEGORIA", prendaSeleccionada.getCategoria());
                 modificarFragment.setArguments(mochila);
 
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, modificarFragment)
-                        .commit();
+                // 2. Buscamos si existe el hueco de la derecha (solo existe al girar el móvil)
+                View huecoDerecho = getActivity().findViewById(R.id.fragment_container_detalle);
+
+                // 3. Aplicamos la lógica del Laboratorio 6
+                if (huecoDerecho != null) {
+                    // ESTAMOS EN HORIZONTAL:
+                    // Usamos el código del Labo 6 pero reemplazamos el hueco de la derecha
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_detalle, modificarFragment)
+                            .commit();
+                } else {
+                    // ESTAMOS EN VERTICAL:
+                    // Usamos el código normal del Labo 6 (reemplaza toda la pantalla)
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, modificarFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
 
             // --- CLIC LARGO: Borrar Prenda con Diálogo ---
             @Override
             public void onClicLargo(Prenda prendaSeleccionada, int posicion) {
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Eliminar prenda")
-                        .setMessage("¿Seguro que quieres borrar '" + prendaSeleccionada.getNombre() + "'?")
+                        .setTitle(getString(R.string.titulo_borrar_prenda))
+                        .setMessage(getString(R.string.msg_borrar_prenda, prendaSeleccionada.getNombre()))
                         .setIcon(android.R.drawable.ic_menu_delete)
-                        .setPositiveButton("Sí, borrar", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.btn_si_borrar), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 bdHelper.borrarPrenda(prendaSeleccionada.getId());
                                 listaRopa.remove(posicion);
-                                adaptador.notifyItemRemoved(posicion); // Animación bonita al borrar
+                                adaptador.notifyItemRemoved(posicion);
                                 Toast.makeText(getActivity(), "Prenda eliminada", Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton("Cancelar", null)
+                        .setNegativeButton(getString(R.string.btn_cancelar), null)
                         .show();
             }
         });

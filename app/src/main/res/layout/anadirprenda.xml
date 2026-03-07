@@ -1,40 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titulo_anadir"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="32dp"/>
-
-    <EditText
-        android:id="@+id/etNombrePrenda"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_nombre"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_anadir"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"/>
 
-    <EditText
-        android:id="@+id/etCategoriaPrenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_categoria"
-        android:inputType="text"
-        android:layout_marginBottom="32dp"/>
+        <EditText
+            android:id="@+id/etNombrePrenda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_nombre"
+            android:minHeight="48dp"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"
+            android:importantForAutofill="no" />
 
-    <Button
-        android:id="@+id/btnGuardarPrenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_guardar"
-        android:backgroundTint="#2196F3"
-        android:textColor="#FFFFFF" />
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/elige_categoria"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbArriba"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="@string/cat_arriba"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/rbAbajo"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="@string/cat_abajo"/>
+
+            <RadioButton
+                android:id="@+id/rbCalzado"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="@string/cat_calzado"/>
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/ivPreviewFoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:background="#E0E0E0"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/btn_seleccionar_foto" />
+
+        <Button
+            android:id="@+id/btnSeleccionarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_seleccionar_foto"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnGuardarPrenda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/malva_texto"
+            android:text="@string/btn_guardar"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</ScrollView>

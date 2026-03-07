@@ -4,7 +4,8 @@
 
     <item
         android:id="@+id/menu_idioma"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_language"
         android:title="Cambiar Idioma"
         app:showAsAction="always" />
+
 </menu>

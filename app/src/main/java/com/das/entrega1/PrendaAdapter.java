@@ -36,19 +36,48 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
     }
 
     // 4. Rellenamos los datos de la tarjeta en la posición actual
+    // 4. Rellenamos los datos de la tarjeta en la posición actual
     @Override
     public void onBindViewHolder(@NonNull PrendaViewHolder holder, int position) {
         Prenda prendaActual = listaRopa.get(position);
 
+        // --- 1. PONER TEXTOS Y TRADUCIR CATEGORÍA ---
         holder.tvNombre.setText(prendaActual.getNombre());
-        holder.tvCategoria.setText(prendaActual.getCategoria());
 
-        // Configuramos los clics
-        holder.itemView.setOnClickListener(v -> listener.onClicNormal(prendaActual));
+        String catInterna = prendaActual.getCategoria();
+        if (catInterna.equals("arriba")) {
+            holder.tvCategoria.setText(holder.itemView.getContext().getString(R.string.cat_arriba));
+        } else if (catInterna.equals("abajo")) {
+            holder.tvCategoria.setText(holder.itemView.getContext().getString(R.string.cat_abajo));
+        } else if (catInterna.equals("calzado")) {
+            holder.tvCategoria.setText(holder.itemView.getContext().getString(R.string.cat_calzado));
+        } else {
+            holder.tvCategoria.setText(catInterna); // Por si tienes prendas viejas guardadas
+        }
+
+        // --- 2. ¡LO QUE FALTABA! CARGAR LA FOTO ---
+        if (prendaActual.getUriFoto() != null && !prendaActual.getUriFoto().isEmpty()) {
+            try {
+                holder.ivFoto.setImageURI(android.net.Uri.parse(prendaActual.getUriFoto()));
+            } catch (Exception e) {
+                holder.ivFoto.setImageResource(android.R.drawable.ic_menu_gallery); // Foto por defecto si falla
+            }
+        } else {
+            holder.ivFoto.setImageResource(android.R.drawable.ic_menu_gallery);
+        }
+
+        // --- 3. ¡LO QUE FALTABA! ACTIVAR LOS CLICS ---
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onClicNormal(prendaActual);
+            }
+        });
 
         holder.itemView.setOnLongClickListener(v -> {
-            listener.onClicLargo(prendaActual, position);
-            return true; // true significa que ya hemos gestionado el clic largo
+            if (listener != null) {
+                listener.onClicLargo(prendaActual, position);
+            }
+            return true;
         });
     }
 
@@ -62,11 +91,13 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
     // Esta clase "sujeta" los elementos visuales para no buscarlos Toodo el rato
     public static class PrendaViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvCategoria;
+        android.widget.ImageView ivFoto; // NUEVO
 
         public PrendaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombrePrenda);
             tvCategoria = itemView.findViewById(R.id.tvCategoriaPrenda);
+            ivFoto = itemView.findViewById(R.id.ivFotoPrenda); // NUEVO
         }
     }
 }

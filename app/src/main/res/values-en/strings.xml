@@ -1,12 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CloApp</string>
     <string name="menu_armario">My Closet</string>
     <string name="menu_anadir">Add Item</string>
+    <string name="menu_crear_conjunto">Create Outfit</string>
     <string name="titulo_armario">Your clothes here!</string>
     <string name="titulo_anadir">Add New Item</string>
     <string name="hint_nombre">What item is it?</string>
     <string name="hint_categoria">Category</string>
     <string name="btn_guardar">SAVE ITEM</string>
     <string name="msg_guardado">Item saved!</string>
+
+    <string name="btn_seleccionar_foto">SELECT PHOTO</string>
+    <string name="titulo_modificar">Modify Item</string>
+    <string name="label_nombre_prenda">Item name:</string>
+    <string name="label_categoria">Category:</string>
+    <string name="btn_actualizar">UPDATE ITEM</string>
+    <string name="msg_error_campos">Please, fill in all fields</string>
+    <string name="msg_error_bd">Error saving to database</string>
+    <string name="msg_bd_ok">Item saved in the database!</string>
+    <string name="pregunta_borrar">Do you want to delete this item?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="msg_borrado">Item deleted</string>
+    <string name="nav_header_title">My Digital Closet</string>
+    <string name="menu_idioma_title">Change Language</string>
+
+    <string-array name="categorias_ropa">
+        <item>Shirt, t-shirt, coat</item>
+        <item>Pants, skirt, shorts</item>
+        <item>Shoes, sneakers, boots, sandals</item>
+    </string-array>
+
+    <string name="elige_categoria">Choose category:</string>
+    <string name="titulo_crear_conjunto">Create your Outfit</string>
+    <string name="lbl_arriba">1. Top:</string>
+    <string name="lbl_abajo">2. Bottom:</string>
+    <string name="lbl_calzado">3. Shoes:</string>
+    <string name="btn_guardar_conjunto">SAVE OUTFIT</string>
+
+    <string name="titulo_mis_conjuntos">My Saved Outfits</string>
+    <string name="msg_conjunto_guardado">Outfit saved successfully!</string>
+    <string name="msg_error_conjunto">Error saving the outfit</string>
+    <string name="menu_mis_conjuntos">My Outfits</string>
+
+    <string name="titulo_borrar_prenda">Delete item</string>
+    <string name="msg_borrar_prenda">Are you sure you want to delete \'%1$s\'?</string>
+    <string name="titulo_borrar_conjunto">Delete outfit</string>
+    <string name="msg_borrar_conjunto">Are you sure you want to delete this outfit?</string>
+    <string name="btn_si_borrar">Yes, delete</string>
+    <string name="btn_cancelar">Cancel</string>
+
+    <string name="cat_arriba">Top</string>
+    <string name="cat_abajo">Bottom</string>
+    <string name="cat_calzado">Shoes</string>
+    <string name="btn_elegir_calzado">Elige un calzado</string>
 </resources>
