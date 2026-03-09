@@ -13,6 +13,7 @@ public class Conjunto {
         this.calzado = calzado;
     }
 
+    //Getters
     public int getId() { return id; }
     public Prenda getArriba() { return arriba; }
     public Prenda getAbajo() { return abajo; }

@@ -11,18 +11,15 @@ public class BDGestor extends SQLiteOpenHelper {
     private static final String NOMBRE_BD = "ArmarioBD.db";
     private static final int VERSION_BD = 3; // Subimos la versión
     private static final String TABLA_ROPA = "ropa";
-
     public BDGestor(Context context) {
         super(context, NOMBRE_BD, null, VERSION_BD);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Tu tabla de ropa que ya tenías...
+        // Crear tablas
         String crearTabla = "CREATE TABLE ropa (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, categoria TEXT, uri_foto TEXT)";
         db.execSQL(crearTabla);
-
-        // NUEVO: La tabla para los conjuntos (guarda los IDs de las prendas)
         String crearTablaConjuntos = "CREATE TABLE conjuntos (id INTEGER PRIMARY KEY AUTOINCREMENT, id_arriba INTEGER, id_abajo INTEGER, id_calzado INTEGER)";
         db.execSQL(crearTablaConjuntos);
     }
@@ -34,7 +31,7 @@ public class BDGestor extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Actualizamos Insertar
+    // Actualizar Insertar
     public boolean insertarPrenda(String nombre, String categoria, String uriFoto) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
@@ -46,7 +43,7 @@ public class BDGestor extends SQLiteOpenHelper {
         return resultado != -1;
     }
 
-    // Actualizamos Obtener
+    // Actualizar Obtener
     public ArrayList<Prenda> obtenerTodasLasPrendas() {
         ArrayList<Prenda> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -65,31 +62,29 @@ public class BDGestor extends SQLiteOpenHelper {
         return lista;
     }
 
-    // 3. Borrar una prenda usando su ID
+    //Borrar una prenda
     public void borrarPrenda(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLA_ROPA, "id=?", new String[]{String.valueOf(id)});
         db.close();
     }
 
-    // 4. Modificar una prenda existente
+    //Modificar una prenda existente
     public boolean actualizarPrenda(int id, String nuevoNombre, String nuevaCategoria) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("nombre", nuevoNombre);
         valores.put("categoria", nuevaCategoria);
-
-        // Actualizamos la fila que coincida con el ID
+        // Actualizar
         int filasAfectadas = db.update(TABLA_ROPA, valores, "id=?", new String[]{String.valueOf(id)});
         return filasAfectadas > 0; // Devuelve true si se modificó correctamente
     }
 
-    // --- NUEVO: Búsqueda exacta adaptada al PDF 08 ---
+    // Filtrar por categoría
     public ArrayList<Prenda> obtenerPrendasPorCategoria(String categoriaBuscada) {
         ArrayList<Prenda> listaFiltrada = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
-        // Búsqueda por coincidencia exacta
+        // Consulta SQL para filtrar por categoría
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLA_ROPA + " WHERE categoria = ?", new String[]{categoriaBuscada});
 
         if (cursor.moveToFirst()) {
@@ -105,7 +100,6 @@ public class BDGestor extends SQLiteOpenHelper {
         return listaFiltrada;
     }
 
-    // Guardar un conjunto
     public boolean insertarConjunto(int idArriba, int idAbajo, int idCalzado) {
         SQLiteDatabase db = this.getWritableDatabase();
         android.content.ContentValues valores = new android.content.ContentValues();
@@ -115,7 +109,6 @@ public class BDGestor extends SQLiteOpenHelper {
         return db.insert("conjuntos", null, valores) != -1;
     }
 
-    // Buscar una sola prenda por su ID (Nos sirve para montar el conjunto luego)
     public Prenda obtenerPrendaPorId(int idBuscado) {
         SQLiteDatabase db = this.getReadableDatabase();
         android.database.Cursor cursor = db.rawQuery("SELECT * FROM ropa WHERE id = ?", new String[]{String.valueOf(idBuscado)});
@@ -126,7 +119,6 @@ public class BDGestor extends SQLiteOpenHelper {
         return null;
     }
 
-    // Obtener todos los conjuntos
     public java.util.ArrayList<Conjunto> obtenerTodosLosConjuntos() {
         java.util.ArrayList<Conjunto> lista = new java.util.ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

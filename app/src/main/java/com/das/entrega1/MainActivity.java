@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import android.content.Intent;
+
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // --- NUEVO: Pedir permisos de notificación para Android 13+ ---
+        //Permisos de notificación
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
                 androidx.core.app.ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
@@ -31,34 +31,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Icono hamburguesa genérico (como pide el PDF) [cite: 228, 230]
+        // Icono menu lateral
         getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_sort_by_size);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final DrawerLayout elmenudesplegable = findViewById(R.id.drawer_layout);
         NavigationView elnavigation = findViewById(R.id.nav_view);
 
-        // Listener del menú según el PDF
+        // Listener del menubar lateral
         elnavigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                // Capturamos el panel derecho y la línea separadora que creamos en layout-land
+                // Capturar el panel derecho
                 View huecoDerecho = findViewById(R.id.fragment_container_detalle);
                 View divisor = findViewById(R.id.divisor_paneles);
 
                 if (id == R.id.nav_armario) {
-                    // SI ES EL ARMARIO: Mostramos el panel derecho y el separador (división en 2)
                     if (huecoDerecho != null) huecoDerecho.setVisibility(View.VISIBLE);
                     if (divisor != null) divisor.setVisibility(View.VISIBLE);
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ArmarioFragment()).commit();
                 } else {
-                    // CUALQUIER OTRO MENÚ: Ocultamos panel derecho y separador (queda 1 panel centrado al 100%)
+                    // CUALQUIER OTRO MENÚ: Ocultamos panel derecho y separador
                     if (huecoDerecho != null) {
                         huecoDerecho.setVisibility(View.GONE);
-                        // Vaciamos el fragmento que hubiera para que no gaste memoria
                         androidx.fragment.app.Fragment fragmentoDetalle = getSupportFragmentManager().findFragmentById(R.id.fragment_container_detalle);
                         if (fragmentoDetalle != null) {
                             getSupportFragmentManager().beginTransaction().remove(fragmentoDetalle).commit();
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (divisor != null) divisor.setVisibility(View.GONE);
 
-                    // Y ahora sí, cargamos el fragmento correspondiente en el hueco principal
+                    // Cargar el fragmento correspondiente en el hueco principal
                     if (id == R.id.nav_anadir) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AnadirFragment()).commit();
                     } else if (id == R.id.nav_crear_conjunto) {
@@ -76,13 +74,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // Cerrar el menú
                 elmenudesplegable.closeDrawers();
                 return false;
             }
         });
 
-        // Botón atrás para cerrar menú según el PDF [cite: 249, 251, 253, 256, 257]
+        // Botón atrás para cerrar menú
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 if (elmenudesplegable.isDrawerOpen(GravityCompat.START)) {
                     elmenudesplegable.closeDrawer(GravityCompat.START);
                 }
-                // 2. Si hay Fragmentos en la pila (hemos viajado a Editar), volvemos atrás
+                // 2. Si hay Fragmentos en la pila, volvemos atrás
                 else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStack();
                 }

@@ -11,14 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 public class AnadirFragment extends Fragment {
-
-    // Variables globales para la foto
     private String uriFotoSeleccionada = "";
     private ImageView ivPreviewFoto;
     private ActivityResultLauncher<Intent> lanzadorGaleria;
@@ -34,7 +31,7 @@ public class AnadirFragment extends Fragment {
         ivPreviewFoto = view.findViewById(R.id.ivPreviewFoto);
         Button btnSeleccionarFoto = view.findViewById(R.id.btnSeleccionarFoto);
 
-        // --- 1. PREPARAMOS EL RECEPTOR DE LA FOTO ---
+        //PREPARAR EL SELECTOR DEL RECEPTOR DE LA FOTO
         lanzadorGaleria = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -51,7 +48,7 @@ public class AnadirFragment extends Fragment {
                 }
         );
 
-        // --- 2. EL BOTÓN QUE ABRE EL SELECTOR ---
+        //BOTÓN PARA SELECCIONAR LA FOTO
         btnSeleccionarFoto.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -59,10 +56,9 @@ public class AnadirFragment extends Fragment {
             lanzadorGaleria.launch(intent);
         });
 
-        // --- 3. GUARDAMOS LA PRENDA ---
+        // BOTÓN PARA GUARDAR
         btnGuardar.setOnClickListener(v -> {
             String nombre = etNombre.getText().toString();
-
             int idSeleccionado = rgCategoria.getCheckedRadioButtonId();
             String categoriaInterna = "";
 
@@ -77,14 +73,14 @@ public class AnadirFragment extends Fragment {
             if (!nombre.isEmpty()) {
                 BDGestor bdHelper = new BDGestor(getActivity());
 
-                // Guardamos usando la categoriaInterna que hemos averiguado arriba
+                // Guardamos usando la categoriaInterna (arriba, abajo, calzado)
                 boolean insertado = bdHelper.insertarPrenda(nombre, categoriaInterna, uriFotoSeleccionada);
 
                 if (insertado) {
                     Toast.makeText(getActivity(), getString(R.string.msg_guardado), Toast.LENGTH_SHORT).show();
                     lanzarNotificacion(nombre);
 
-                    // Limpiamos el formulario
+                    //LIMPIAR FORMULARIO
                     etNombre.setText("");
                     uriFotoSeleccionada = "";
                     ivPreviewFoto.setImageResource(android.R.drawable.ic_menu_gallery);
@@ -99,7 +95,7 @@ public class AnadirFragment extends Fragment {
         return view;
     }
 
-    // Métoodo de la notificación
+    // NOTIFICACIÓN AÑADIDO DE PRENDA
     private void lanzarNotificacion(String nombrePrenda) {
         android.app.NotificationManager elManager = (android.app.NotificationManager) getActivity().getSystemService(android.content.Context.NOTIFICATION_SERVICE);
         String channelId = "canal_armario";
@@ -120,7 +116,7 @@ public class AnadirFragment extends Fragment {
                 .setContentIntent(pendingIntent)
                 .addAction(android.R.drawable.ic_menu_view, "VER ARMARIO", pendingIntent);
 
-        // ID único para que salten todas las notificaciones
+        // ID ÚNICO para cada notificación
         int idUnico = (int) System.currentTimeMillis();
         elManager.notify(idUnico, elBuilder.build());
     }

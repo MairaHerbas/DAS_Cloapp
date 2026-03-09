@@ -17,10 +17,9 @@ public class MisConjuntosFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         BDGestor bdHelper = new BDGestor(getActivity());
-        // Cargamos la lista en una variable para poder quitar elementos luego
         java.util.ArrayList<Conjunto> listaConjuntos = bdHelper.obtenerTodosLosConjuntos();
 
-        // Creamos el adaptador y le pasamos lo que tiene que hacer al hacer clic largo
+        // Crear el adaptador y le pasamos lo que tiene que hacer al hacer clic largo
         ConjuntoAdapter adapter = new ConjuntoAdapter(listaConjuntos, new ConjuntoAdapter.OnItemClickListener() {
             @Override
             public void onClicLargo(Conjunto conjuntoSeleccionado, int posicion) {

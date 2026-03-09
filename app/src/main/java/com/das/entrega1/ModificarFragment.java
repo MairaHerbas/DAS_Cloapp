@@ -19,18 +19,14 @@ public class ModificarFragment extends Fragment {
         View view = inflater.inflate(R.layout.modificarprenda, container, false);
 
         EditText etNombre = view.findViewById(R.id.etEditarNombre);
-
-        // El RadioGroup que sustituye al Spinner
         android.widget.RadioGroup rgCategoria = view.findViewById(R.id.rgCategoria);
         Button btnActualizar = view.findViewById(R.id.btnActualizarPrenda);
 
-        // 1. Recibimos la "mochila" (Bundle) con los datos de la prenda
         Bundle datosRecibidos = getArguments();
         if (datosRecibidos != null) {
             idPrenda = datosRecibidos.getInt("ID");
             etNombre.setText(datosRecibidos.getString("NOMBRE"));
-
-            // --- CORREGIDO: Marcamos el RadioButton correcto según la BD ---
+            // Marcar el RadioButton
             String catInterna = datosRecibidos.getString("CATEGORIA");
             if (catInterna != null) {
                 if (catInterna.equals("arriba")) {
@@ -47,7 +43,7 @@ public class ModificarFragment extends Fragment {
         btnActualizar.setOnClickListener(v -> {
             String nuevoNombre = etNombre.getText().toString();
 
-            // Averiguamos qué botón redondo está marcado
+            // botón está marcado en el RadioGroup?
             int idSeleccionado = rgCategoria.getCheckedRadioButtonId();
             String categoriaInterna = "";
 
@@ -60,20 +56,19 @@ public class ModificarFragment extends Fragment {
             }
 
             if (!nuevoNombre.isEmpty()) {
-                // --- CORREGIDO: Usamos la variable categoriaInterna ---
                 BDGestor bdHelper = new BDGestor(getActivity());
                 boolean actualizado = bdHelper.actualizarPrenda(idPrenda, nuevoNombre, categoriaInterna);
 
                 if (actualizado) {
                     Toast.makeText(getActivity(), "Prenda modificada", Toast.LENGTH_SHORT).show();
 
-                    // Si estamos en horizontal, borramos el panel derecho después de guardar
+                    // Si estamos en horizontal, borrar el panel derecho después de guardar
                     View huecoDerecho = getActivity().findViewById(R.id.fragment_container_detalle);
                     if (huecoDerecho != null && huecoDerecho.getVisibility() == View.VISIBLE) {
                         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                     }
 
-                    // Refrescamos la lista del armario
+                    // Refrescar la lista del armario
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new ArmarioFragment())
                             .commit();

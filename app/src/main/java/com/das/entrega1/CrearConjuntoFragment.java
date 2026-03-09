@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 public class CrearConjuntoFragment extends Fragment {
-
-    // Variables globales para guardar lo que elija en los diálogos
     private Prenda prendaArribaSeleccionada = null;
     private Prenda prendaAbajoSeleccionada = null;
     private Prenda prendaCalzadoSeleccionada = null;
@@ -37,12 +35,12 @@ public class CrearConjuntoFragment extends Fragment {
             btnGuardar.setEnabled(false);
         }
 
-        // --- DIÁLOGOS DE SELECCIÓN (PDF 05) ---
+        // Dialogos de selección
         btnElegirArriba.setOnClickListener(v -> mostrarDialogoSeleccion(listaArriba, "Elige parte de arriba", btnElegirArriba, 1));
         btnElegirAbajo.setOnClickListener(v -> mostrarDialogoSeleccion(listaAbajo, "Elige parte de abajo", btnElegirAbajo, 2));
         btnElegirCalzado.setOnClickListener(v -> mostrarDialogoSeleccion(listaCalzado, "Elige calzado", btnElegirCalzado, 3));
 
-        // --- GUARDAR CONJUNTO ---
+        //Boton para guardar el conjunto
         btnGuardar.setOnClickListener(v -> {
             if (prendaArribaSeleccionada != null && prendaAbajoSeleccionada != null && prendaCalzadoSeleccionada != null) {
                 if (bdHelper.existeConjunto(prendaArribaSeleccionada.getId(), prendaAbajoSeleccionada.getId(), prendaCalzadoSeleccionada.getId())) {
@@ -61,9 +59,8 @@ public class CrearConjuntoFragment extends Fragment {
         return view;
     }
 
-    // Método reutilizable para crear el Dialog con setSingleChoiceItems (PDF 05)
     private void mostrarDialogoSeleccion(ArrayList<Prenda> listaRopa, String titulo, Button botonActualizar, int tipoPrenda) {
-        // Convertir la lista de objetos a un Array de Strings para el Diálogo
+        // Convertir la lista a un Array para el Diálogo
         String[] nombresRopa = new String[listaRopa.size()];
         for (int i = 0; i < listaRopa.size(); i++) {
             nombresRopa[i] = listaRopa.get(i).getNombre();
@@ -71,19 +68,16 @@ public class CrearConjuntoFragment extends Fragment {
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(titulo)
-                // setSingleChoiceItems es la clave que pedía tu PDF 05
                 .setSingleChoiceItems(nombresRopa, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Guardamos la prenda que ha elegido
                         Prenda elegida = listaRopa.get(which);
                         if (tipoPrenda == 1) prendaArribaSeleccionada = elegida;
                         else if (tipoPrenda == 2) prendaAbajoSeleccionada = elegida;
                         else prendaCalzadoSeleccionada = elegida;
 
-                        // Cambiamos el texto del botón para que vea lo que ha elegido
                         botonActualizar.setText(elegida.getNombre());
-                        dialog.dismiss(); // Cerramos el diálogo
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton(getString(R.string.btn_cancelar), null)

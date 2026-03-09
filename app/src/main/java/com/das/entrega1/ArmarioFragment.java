@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class ArmarioFragment extends Fragment {
-
     private PrendaAdapter adaptador;
     private ArrayList<Prenda> listaRopa;
     private BDGestor bdHelper;
@@ -24,22 +23,21 @@ public class ArmarioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.armario, container, false);
 
-        // 1. Buscamos el RecyclerView y le damos un LayoutManager (Obligatorio)
+        //Crear el RecyclerView
         RecyclerView rvArmario = view.findViewById(R.id.rvArmario);
         rvArmario.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // 2. Cargamos los datos de la Base de Datos
+        //Cargar datos de la BD
         bdHelper = new BDGestor(getActivity());
         listaRopa = bdHelper.obtenerTodasLasPrendas();
 
-        // 3. Creamos el adaptador y gestionamos los clics
+        //Gestión de clics y adaptador
         adaptador = new PrendaAdapter(listaRopa, new PrendaAdapter.OnItemClickListener() {
 
-            // --- CLIC NORMAL: Editar Prenda ---
-            // --- CLIC NORMAL: Editar Prenda ---
+            //CLIC NORMAL: Modificar Prenda
             @Override
             public void onClicNormal(Prenda prendaSeleccionada) {
-                // 1. Preparamos el fragmento a abrir (EditarFragment)
+                //Preparar el fragment
                 ModificarFragment modificarFragment = new ModificarFragment();
                 Bundle mochila = new Bundle();
                 mochila.putInt("ID", prendaSeleccionada.getId());
@@ -47,19 +45,15 @@ public class ArmarioFragment extends Fragment {
                 mochila.putString("CATEGORIA", prendaSeleccionada.getCategoria());
                 modificarFragment.setArguments(mochila);
 
-                // 2. Buscamos si existe el hueco de la derecha (solo existe al girar el móvil)
+                //Rellenar lateral derecho en Armario Horizontal
                 View huecoDerecho = getActivity().findViewById(R.id.fragment_container_detalle);
 
-                // 3. Aplicamos la lógica del Laboratorio 6
                 if (huecoDerecho != null) {
-                    // ESTAMOS EN HORIZONTAL:
-                    // Usamos el código del Labo 6 pero reemplazamos el hueco de la derecha
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_detalle, modificarFragment)
                             .commit();
                 } else {
-                    // ESTAMOS EN VERTICAL:
-                    // Usamos el código normal del Labo 6 (reemplaza toda la pantalla)
+                    // En Vertical
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, modificarFragment)
                             .addToBackStack(null)
@@ -67,7 +61,7 @@ public class ArmarioFragment extends Fragment {
                 }
             }
 
-            // --- CLIC LARGO: Borrar Prenda con Diálogo ---
+            //CLIC LARGO: Borrar Prenda con Diálogo
             @Override
             public void onClicLargo(Prenda prendaSeleccionada, int posicion) {
                 new AlertDialog.Builder(getActivity())
@@ -88,7 +82,6 @@ public class ArmarioFragment extends Fragment {
             }
         });
 
-        // 4. Enchufamos el adaptador al RecyclerView
         rvArmario.setAdapter(adaptador);
 
         return view;

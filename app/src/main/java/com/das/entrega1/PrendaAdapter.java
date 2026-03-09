@@ -11,23 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaViewHolder> {
-
     private ArrayList<Prenda> listaRopa;
     private OnItemClickListener listener;
-
-    // 1. Creamos una "antena" (interfaz) para escuchar los clics
     public interface OnItemClickListener {
         void onClicNormal(Prenda prendaSeleccionada);
         void onClicLargo(Prenda prendaSeleccionada, int posicion);
     }
-
-    // 2. Constructor
     public PrendaAdapter(ArrayList<Prenda> listaRopa, OnItemClickListener listener) {
         this.listaRopa = listaRopa;
         this.listener = listener;
     }
 
-    // 3. Inflamos el diseño de la tarjeta (item_prenda.xml)
+    // 3. Cargar el diseño de la tarjeta
     @NonNull
     @Override
     public PrendaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,13 +30,12 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
         return new PrendaViewHolder(view);
     }
 
-    // 4. Rellenamos los datos de la tarjeta en la posición actual
-    // 4. Rellenamos los datos de la tarjeta en la posición actual
+    // 4. Rellenar los datos de la tarjeta actual
     @Override
     public void onBindViewHolder(@NonNull PrendaViewHolder holder, int position) {
         Prenda prendaActual = listaRopa.get(position);
 
-        // --- 1. PONER TEXTOS Y TRADUCIR CATEGORÍA ---
+        // Cargar datos
         holder.tvNombre.setText(prendaActual.getNombre());
 
         String catInterna = prendaActual.getCategoria();
@@ -52,10 +46,10 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
         } else if (catInterna.equals("calzado")) {
             holder.tvCategoria.setText(holder.itemView.getContext().getString(R.string.cat_calzado));
         } else {
-            holder.tvCategoria.setText(catInterna); // Por si tienes prendas viejas guardadas
+            holder.tvCategoria.setText(catInterna);
         }
 
-        // --- 2. ¡LO QUE FALTABA! CARGAR LA FOTO ---
+        // Cargar foto
         if (prendaActual.getUriFoto() != null && !prendaActual.getUriFoto().isEmpty()) {
             try {
                 holder.ivFoto.setImageURI(android.net.Uri.parse(prendaActual.getUriFoto()));
@@ -66,7 +60,7 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
             holder.ivFoto.setImageResource(android.R.drawable.ic_menu_gallery);
         }
 
-        // --- 3. ¡LO QUE FALTABA! ACTIVAR LOS CLICS ---
+        // Activar clics
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClicNormal(prendaActual);
@@ -81,18 +75,16 @@ public class PrendaAdapter extends RecyclerView.Adapter<PrendaAdapter.PrendaView
         });
     }
 
-    // 5. Decimos cuántos elementos hay en total
+    //Obtener num elementos
     @Override
     public int getItemCount() {
         return listaRopa.size();
     }
 
-    // --- CLASE INTERNA VIEWHOLDER ---
-    // Esta clase "sujeta" los elementos visuales para no buscarlos Toodo el rato
+    //CLASE INTERNA VIEWHOLDER
     public static class PrendaViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvCategoria;
-        android.widget.ImageView ivFoto; // NUEVO
-
+        android.widget.ImageView ivFoto;
         public PrendaViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombrePrenda);
