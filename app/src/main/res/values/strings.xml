@@ -53,4 +53,20 @@
     <string name="cat_abajo">Parte de abajo</string>
     <string name="cat_calzado">Calzado</string>
 
+    <string name="titulo_sugerencia">Armario Inteligente</string>
+    <string name="buscando_ubicacion">Buscando tu ubicación...</string>
+    <string name="ubicacion_denegada">Ubicación denegada</string>
+    <string name="conectando_clima">Conectando al satélite...</string>
+    <string name="prenda_sugerida">Prenda sugerida para hoy:</string>
+    <string name="esperando_datos">Esperando datos...</string>
+    <string name="btn_actualizar_clima">Actualizar Clima</string>
+    <string name="conectando_openweather">Conectando a OpenWeather...</string>
+    <string name="error_red">Error de red</string>
+    <string name="error_conectar_openweather">Fallo al conectar con OpenWeather</string>
+    <string name="error_leer_json">Error al leer el JSON</string>
+    <string name="falta_api_key">Falta la API Key en local.defaults</string>
+    <string name="aviso_gps_emulador">Abre Google Maps 1 vez para activar el GPS</string>
+    <string name="toast_gps_emulador">El GPS del emulador no tiene posición</string>
+    <string name="permiso_denegado">Permiso de ubicación denegado</string>
+    <string name="clima_obtenido">¡Clima obtenido! Falta la lógica de ropa.</string>
 </resources>

@@ -65,12 +65,15 @@ public class MainActivity extends AppCompatActivity {
                     if (divisor != null) divisor.setVisibility(View.GONE);
 
                     // Cargar el fragmento correspondiente en el hueco principal
+                    // Añade esta condición a tu bloque de "Cargar el fragmento correspondiente..."
                     if (id == R.id.nav_anadir) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AnadirFragment()).commit();
                     } else if (id == R.id.nav_crear_conjunto) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CrearConjuntoFragment()).commit();
                     } else if (id == R.id.nav_mis_conjuntos) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MisConjuntosFragment()).commit();
+                    } else if (id == R.id.nav_sugerencia) { // <--- NUEVA PANTALLA AQUÍ
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SugerenciaFragment()).commit();
                     }
                 }
 

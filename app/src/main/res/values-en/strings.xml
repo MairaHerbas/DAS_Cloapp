@@ -54,4 +54,21 @@
     <string name="cat_abajo">Bottom</string>
     <string name="cat_calzado">Shoes</string>
     <string name="btn_elegir_calzado">Elige un calzado</string>
+
+    <string name="titulo_sugerencia">Smart Wardrobe</string>
+    <string name="buscando_ubicacion">Finding your location...</string>
+    <string name="ubicacion_denegada">Location denied</string>
+    <string name="conectando_clima">Connecting to satellite...</string>
+    <string name="prenda_sugerida">Suggested item for today:</string>
+    <string name="esperando_datos">Waiting for data...</string>
+    <string name="btn_actualizar_clima">Update Weather</string>
+    <string name="conectando_openweather">Connecting to OpenWeather...</string>
+    <string name="error_red">Network error</string>
+    <string name="error_conectar_openweather">Failed to connect to OpenWeather</string>
+    <string name="error_leer_json">Error reading JSON</string>
+    <string name="falta_api_key">Missing API Key in local.defaults</string>
+    <string name="aviso_gps_emulador">Open Google Maps once to activate GPS</string>
+    <string name="toast_gps_emulador">Emulator GPS has no position</string>
+    <string name="permiso_denegado">Location permission denied</string>
+    <string name="clima_obtenido">Weather obtained! Missing clothing logic.</string>
 </resources>

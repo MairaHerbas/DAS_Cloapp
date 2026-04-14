@@ -5,14 +5,12 @@ plugins {
 
 android {
     namespace = "com.das.entrega1"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.das.entrega1"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -39,7 +37,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("com.google.android.gms:play-services-maps:20.0.0")
+    // Servicios de Google Play (Para la ubicación)
+    implementation("com.google.android.gms:play-services-location:21.2.0")
+
+    // Volley (Para hacer las peticiones a Internet en 2º plano)
+    implementation("com.android.volley:volley:1.2.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -51,11 +53,10 @@ secrets {
     propertiesFileName = "secrets.properties"
     // A properties file containing default secret values. This file can be
     // checked in version control.
-    defaultPropertiesFileName = "local.defaults.properties"
+    defaultPropertiesFileName = "local.default.properties"
     // Configure which keys should be ignored by the plugin by providing
     //regular expressions.
     // "sdk.dir" is ignored by default.
     ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
     ignoreList.add("sdk.*") // Ignore all keys matching the regexp
-    "sdk.*"
 }
