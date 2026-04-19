@@ -17,7 +17,11 @@
         android:icon="@drawable/conjuntos"
         android:title="@string/menu_mis_conjuntos" />
     <item
-        android:id="@+id/nav_sugerencia"
-        android:icon="@android:drawable/ic_menu_compass"
-        android:title="Armario Inteligente" />
+        android:id="@+id/nav_mapa"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/menu_mapa" />
+    <item
+        android:id="@+id/nav_perfil"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="@string/menu_perfil" />
 </menu>

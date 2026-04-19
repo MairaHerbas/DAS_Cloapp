@@ -1,5 +1,7 @@
 package com.das.entrega1;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 public class ModificarFragment extends Fragment {
-
-    private int idPrenda; // Aquí guardaremos el ID de la prenda a editar
+    private int idPrenda;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class ModificarFragment extends Fragment {
             }
         }
 
-        // 2. ¿Qué pasa al pulsar Actualizar?
         btnActualizar.setOnClickListener(v -> {
             String nuevoNombre = etNombre.getText().toString();
 
@@ -56,24 +56,26 @@ public class ModificarFragment extends Fragment {
             }
 
             if (!nuevoNombre.isEmpty()) {
-                BDGestor bdHelper = new BDGestor(getActivity());
-                boolean actualizado = bdHelper.actualizarPrenda(idPrenda, nuevoNombre, categoriaInterna);
+                Uri uriPrenda = Uri.parse(RopaProvider.CONTENT_URI + "/" + idPrenda);
 
-                if (actualizado) {
-                    Toast.makeText(getActivity(), "Prenda modificada", Toast.LENGTH_SHORT).show();
+                ContentValues valoresNuevos = new ContentValues();
+                valoresNuevos.put("nombre", nuevoNombre);
+                valoresNuevos.put("categoria", categoriaInterna);
 
-                    // Si estamos en horizontal, borrar el panel derecho después de guardar
+                int filasModificadas = requireActivity().getContentResolver().update(uriPrenda, valoresNuevos, null, null);
+
+                if (filasModificadas > 0) {
+                    Toast.makeText(getActivity(), "Prenda modificada vía Provider", Toast.LENGTH_SHORT).show();
                     View huecoDerecho = getActivity().findViewById(R.id.fragment_container_detalle);
                     if (huecoDerecho != null && huecoDerecho.getVisibility() == View.VISIBLE) {
                         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                     }
 
-                    // Refrescar la lista del armario
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new ArmarioFragment())
                             .commit();
                 } else {
-                    Toast.makeText(getActivity(), "Error al modificar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error al modificar con Provider", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(getActivity(), "No dejes el nombre vacío", Toast.LENGTH_SHORT).show();

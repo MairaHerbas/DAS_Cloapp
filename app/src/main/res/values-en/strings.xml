@@ -55,20 +55,35 @@
     <string name="cat_calzado">Shoes</string>
     <string name="btn_elegir_calzado">Elige un calzado</string>
 
-    <string name="titulo_sugerencia">Smart Wardrobe</string>
-    <string name="buscando_ubicacion">Finding your location...</string>
-    <string name="ubicacion_denegada">Location denied</string>
-    <string name="conectando_clima">Connecting to satellite...</string>
-    <string name="prenda_sugerida">Suggested item for today:</string>
-    <string name="esperando_datos">Waiting for data...</string>
-    <string name="btn_actualizar_clima">Update Weather</string>
-    <string name="conectando_openweather">Connecting to OpenWeather...</string>
-    <string name="error_red">Network error</string>
-    <string name="error_conectar_openweather">Failed to connect to OpenWeather</string>
-    <string name="error_leer_json">Error reading JSON</string>
-    <string name="falta_api_key">Missing API Key in local.defaults</string>
-    <string name="aviso_gps_emulador">Open Google Maps once to activate GPS</string>
-    <string name="toast_gps_emulador">Emulator GPS has no position</string>
-    <string name="permiso_denegado">Location permission denied</string>
-    <string name="clima_obtenido">Weather obtained! Missing clothing logic.</string>
+    <string name="btn_buscar_tiendas">Search stores for clothes</string>
+    <string name="bienvenido_cloapp">Welcome to CloApp</string>
+    <string name="hint_usuario">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email_registro">Email (Only for registration)</string>
+    <string name="btn_iniciar_sesion">Log In</string>
+    <string name="btn_registrarse">Sign Up</string>
+    <string name="btn_volver_login">Back to Login</string>
+    <string name="toast_rellena_campos">Please fill in all fields</string>
+    <string name="toast_error_procesando">Error processing response</string>
+    <string name="toast_error_red">Network error: </string>
+
+    <string name="menu_mapa">My Location</string>
+    <string name="titulo_mapa">User Map</string>
+    <string name="marcador_aqui">You are here</string>
+    <string name="menu_perfil">My Profile</string>
+
+    <string name="btn_tomar_foto">Take Profile Photo</string>
+    <string name="btn_backup">Backup Data</string>
+    <string name="estado_esperando">Status: Waiting...</string>
+    <string name="permiso_camara_denegado">Camera permission denied</string>
+    <string name="iniciando_conexion">Starting connection...</string>
+    <string name="subiendo_firebase">Uploading to Firebase...</string>
+    <string name="exito_firebase">Uploaded to Firebase!</string>
+    <string name="fallo_firebase">Error: </string>
+    <string name="backup_completado">Backup Completed! ✅</string>
+    <string name="sincronizando_nube">Syncing to cloud: %1$d%% ☁️</string>
+
+    <string name="notif_backup_titulo">Syncing Closet</string>
+    <string name="notif_backup_texto">Uploading photos to cloud...</string>
+    <string name="canal_backup_nombre">Data Backup</string>
 </resources>

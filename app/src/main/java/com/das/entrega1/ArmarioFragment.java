@@ -1,17 +1,16 @@
 package com.das.entrega1;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class ArmarioFragment extends Fragment {
@@ -71,10 +70,16 @@ public class ArmarioFragment extends Fragment {
                         .setPositiveButton(getString(R.string.btn_si_borrar), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                bdHelper.borrarPrenda(prendaSeleccionada.getId());
-                                listaRopa.remove(posicion);
-                                adaptador.notifyItemRemoved(posicion);
-                                Toast.makeText(getActivity(), "Prenda eliminada", Toast.LENGTH_SHORT).show();
+                                Uri uriPrenda = Uri.parse(RopaProvider.CONTENT_URI + "/" + prendaSeleccionada.getId());
+                                int filasBorradas = requireActivity().getContentResolver().delete(uriPrenda, null, null);
+
+                                if (filasBorradas > 0) {
+                                    listaRopa.remove(posicion);
+                                    adaptador.notifyItemRemoved(posicion);
+                                    Toast.makeText(getActivity(), "Prenda eliminada vía Provider", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "Error al borrar con Provider", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         })
                         .setNegativeButton(getString(R.string.btn_cancelar), null)

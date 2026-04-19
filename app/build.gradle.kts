@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.das.entrega1"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.das.entrega1"
@@ -42,9 +43,18 @@ dependencies {
 
     // Volley (Para hacer las peticiones a Internet en 2º plano)
     implementation("com.android.volley:volley:1.2.1")
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    // Librería de Firebase Storage
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
+    // Glide para descargar y mostrar imágenes de Internet (Tema 16)
+    implementation("com.github.bumptech.glide:glide:4.7.1")
+
+    // Google Maps (Punto 2)
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 }
 
 secrets {

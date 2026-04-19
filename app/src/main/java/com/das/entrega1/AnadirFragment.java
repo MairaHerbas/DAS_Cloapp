@@ -1,6 +1,7 @@
 package com.das.entrega1;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class AnadirFragment extends Fragment {
         EditText etNombre = view.findViewById(R.id.etNombrePrenda);
         android.widget.RadioGroup rgCategoria = view.findViewById(R.id.rgCategoria);
         Button btnGuardar = view.findViewById(R.id.btnGuardarPrenda);
-
+        
         ivPreviewFoto = view.findViewById(R.id.ivPreviewFoto);
         Button btnSeleccionarFoto = view.findViewById(R.id.btnSeleccionarFoto);
 
@@ -70,22 +71,25 @@ public class AnadirFragment extends Fragment {
                 categoriaInterna = "calzado";
             }
 
+
             if (!nombre.isEmpty()) {
-                BDGestor bdHelper = new BDGestor(getActivity());
+                //CONTENT PROVIDER
+                ContentValues valores = new ContentValues();
+                valores.put("nombre", nombre);
+                valores.put("categoria", categoriaInterna);
+                valores.put("uri_foto", uriFotoSeleccionada);
 
-                // Guardamos usando la categoriaInterna (arriba, abajo, calzado)
-                boolean insertado = bdHelper.insertarPrenda(nombre, categoriaInterna, uriFotoSeleccionada);
+                Uri uriInsertada = requireActivity().getContentResolver().insert(RopaProvider.CONTENT_URI, valores);
 
-                if (insertado) {
-                    Toast.makeText(getActivity(), getString(R.string.msg_guardado), Toast.LENGTH_SHORT).show();
-                    lanzarNotificacion(nombre);
+                if (uriInsertada != null) {
+                    Toast.makeText(getActivity(), getString(R.string.msg_guardado) + " (vía Provider)", Toast.LENGTH_SHORT).show();
+                    avisarServidorFCM(nombre);
 
-                    //LIMPIAR FORMULARIO
                     etNombre.setText("");
                     uriFotoSeleccionada = "";
                     ivPreviewFoto.setImageResource(android.R.drawable.ic_menu_gallery);
                 } else {
-                    Toast.makeText(getActivity(), "Error al guardar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error al guardar con Provider", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(getActivity(), "Rellena el nombre", Toast.LENGTH_SHORT).show();
@@ -94,30 +98,23 @@ public class AnadirFragment extends Fragment {
 
         return view;
     }
+    private void avisarServidorFCM(String nombreDeLaPrenda) {
+        String prendaCodificada = android.net.Uri.encode(nombreDeLaPrenda);
 
-    // NOTIFICACIÓN AÑADIDO DE PRENDA
-    private void lanzarNotificacion(String nombrePrenda) {
-        android.app.NotificationManager elManager = (android.app.NotificationManager) getActivity().getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-        String channelId = "canal_armario";
+        //IP DE GOOGLE CLOUD
+        String url = "http://34.130.150.158:81/notificar_prenda.php?prenda=" + prendaCodificada;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            android.app.NotificationChannel canal = new android.app.NotificationChannel(channelId, "Notificaciones de Armario", android.app.NotificationManager.IMPORTANCE_HIGH);
-            elManager.createNotificationChannel(canal);
-        }
+        com.android.volley.toolbox.StringRequest peticion = new com.android.volley.toolbox.StringRequest(
+                com.android.volley.Request.Method.GET,
+                url,
+                response -> {
+                    android.util.Log.d("FCM", "Aviso enviado al servidor: " + response);
+                },
+                error -> {
+                    android.util.Log.e("FCM", "Error al avisar al servidor: " + error.getMessage());
+                }
+        );
 
-        android.content.Intent intentApp = new android.content.Intent(getActivity(), MainActivity.class);
-        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getActivity(getActivity(), 0, intentApp, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
-
-        androidx.core.app.NotificationCompat.Builder elBuilder = new androidx.core.app.NotificationCompat.Builder(getActivity(), channelId)
-                .setSmallIcon(android.R.drawable.ic_menu_gallery)
-                .setContentTitle("¡Nuevo fichaje en tu armario!")
-                .setContentText("Has añadido: " + nombrePrenda)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.ic_menu_view, "VER ARMARIO", pendingIntent);
-
-        // ID ÚNICO para cada notificación
-        int idUnico = (int) System.currentTimeMillis();
-        elManager.notify(idUnico, elBuilder.build());
+        com.android.volley.toolbox.Volley.newRequestQueue(requireContext()).add(peticion);
     }
 }

@@ -52,21 +52,36 @@
     <string name="cat_arriba">Parte de arriba</string>
     <string name="cat_abajo">Parte de abajo</string>
     <string name="cat_calzado">Calzado</string>
+    <string name="btn_elegir_calzado">Elige un calzado</string>
+    <string name="btn_buscar_tiendas">Buscar tiendas de ropa</string>
+    <string name="bienvenido_cloapp">Bienvenido a CloApp</string>
+    <string name="hint_usuario">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_email_registro">Email (Solo para registro)</string>
+    <string name="btn_iniciar_sesion">Iniciar Sesión</string>
+    <string name="btn_registrarse">Registrarse</string>
+    <string name="btn_volver_login">Volver a Login</string>
+    <string name="toast_rellena_campos">Rellena los campos</string>
+    <string name="toast_error_procesando">Error procesando respuesta</string>
+    <string name="toast_error_red">Error de red: </string>
 
-    <string name="titulo_sugerencia">Armario Inteligente</string>
-    <string name="buscando_ubicacion">Buscando tu ubicación...</string>
-    <string name="ubicacion_denegada">Ubicación denegada</string>
-    <string name="conectando_clima">Conectando al satélite...</string>
-    <string name="prenda_sugerida">Prenda sugerida para hoy:</string>
-    <string name="esperando_datos">Esperando datos...</string>
-    <string name="btn_actualizar_clima">Actualizar Clima</string>
-    <string name="conectando_openweather">Conectando a OpenWeather...</string>
-    <string name="error_red">Error de red</string>
-    <string name="error_conectar_openweather">Fallo al conectar con OpenWeather</string>
-    <string name="error_leer_json">Error al leer el JSON</string>
-    <string name="falta_api_key">Falta la API Key en local.defaults</string>
-    <string name="aviso_gps_emulador">Abre Google Maps 1 vez para activar el GPS</string>
-    <string name="toast_gps_emulador">El GPS del emulador no tiene posición</string>
-    <string name="permiso_denegado">Permiso de ubicación denegado</string>
-    <string name="clima_obtenido">¡Clima obtenido! Falta la lógica de ropa.</string>
+    <string name="menu_mapa">Mi Ubicación</string>
+    <string name="titulo_mapa">Mapa de Usuario</string>
+    <string name="marcador_aqui">Estás aquí</string>
+    <string name="menu_perfil">Mi Perfil</string>
+
+    <string name="btn_tomar_foto">Tomar Foto de Perfil</string>
+    <string name="btn_backup">Hacer Copia de Seguridad</string>
+    <string name="estado_esperando">Estado: Esperando...</string>
+    <string name="permiso_camara_denegado">Permiso de cámara denegado</string>
+    <string name="iniciando_conexion">Iniciando conexión...</string>
+    <string name="subiendo_firebase">Subiendo a Firebase...</string>
+    <string name="exito_firebase">¡Subido a Firebase!</string>
+    <string name="fallo_firebase">Fallo: </string>
+    <string name="backup_completado">¡Copia de Seguridad Completada! ✅</string>
+    <string name="sincronizando_nube">Sincronizando la nube: %1$d%% ☁️</string>
+
+    <string name="notif_backup_titulo">Sincronizando Armario</string>
+    <string name="notif_backup_texto">Subiendo fotos a la nube...</string>
+    <string name="canal_backup_nombre">Copia de Seguridad</string>
 </resources>

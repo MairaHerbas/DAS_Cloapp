@@ -27,11 +27,10 @@ public class BDGestor extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS ropa");
-        db.execSQL("DROP TABLE IF EXISTS conjuntos"); // NUEVO
+        db.execSQL("DROP TABLE IF EXISTS conjuntos");
         onCreate(db);
     }
 
-    // Actualizar Insertar
     public boolean insertarPrenda(String nombre, String categoria, String uriFoto) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
@@ -43,7 +42,6 @@ public class BDGestor extends SQLiteOpenHelper {
         return resultado != -1;
     }
 
-    // Actualizar Obtener
     public ArrayList<Prenda> obtenerTodasLasPrendas() {
         ArrayList<Prenda> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -155,57 +153,5 @@ public class BDGestor extends SQLiteOpenHelper {
         boolean existe = cursor.getCount() > 0;
         cursor.close();
         return existe;
-    }
-
-    public Conjunto sugerirConjuntoPorClima(double temperatura) {
-        ArrayList<Conjunto> todosLosConjuntos = obtenerTodosLosConjuntos();
-
-        // Si no hay conjuntos creados, devolvemos nulo directamente
-        if (todosLosConjuntos == null || todosLosConjuntos.isEmpty()) {
-            return null;
-        }
-
-        ArrayList<Conjunto> conjuntosAdecuados = new ArrayList<>();
-
-        // Recorremos todos los conjuntos para buscar el ideal
-        for (Conjunto conjunto : todosLosConjuntos) {
-            // Pasamos los nombres a minúsculas para que sea más fácil buscar palabras clave
-            String nombreArriba = conjunto.getArriba().getNombre().toLowerCase();
-            String nombreAbajo = conjunto.getAbajo().getNombre().toLowerCase();
-
-            if (temperatura < 15.0) {
-                // HACE FRÍO: Buscamos ropa de abrigo o pantalones largos
-                if (nombreArriba.contains("abrigo") || nombreArriba.contains("chaqueta") ||
-                        nombreArriba.contains("sudadera") || nombreArriba.contains("jersey") ||
-                        nombreAbajo.contains("largo") || nombreAbajo.contains("vaquero")) {
-
-                    conjuntosAdecuados.add(conjunto);
-                }
-            }
-            else if (temperatura > 25.0) {
-                // HACE CALOR: Buscamos manga corta, tirantes, faldas o pantalones cortos
-                if (nombreArriba.contains("corta") || nombreArriba.contains("tirantes") ||
-                        nombreArriba.contains("top") || nombreAbajo.contains("corto") ||
-                        nombreAbajo.contains("falda") || nombreAbajo.contains("bermuda")) {
-
-                    conjuntosAdecuados.add(conjunto);
-                }
-            }
-            else {
-                // TEMPERATURA MEDIA (15º - 25º): Cualquier conjunto nos puede valer
-                conjuntosAdecuados.add(conjunto);
-            }
-        }
-
-        // PLAN B: Si hace frío/calor pero no tienes ropa con esos nombres exactos en la base de datos,
-        // usamos todos los conjuntos para asegurarnos de sugerir ALGO y que no dé error.
-        if (conjuntosAdecuados.isEmpty()) {
-            conjuntosAdecuados = todosLosConjuntos;
-        }
-
-        // Finalmente, escogemos un conjunto al azar de la lista de los que son "adecuados" para este clima
-        int indiceAleatorio = new java.util.Random().nextInt(conjuntosAdecuados.size());
-
-        return conjuntosAdecuados.get(indiceAleatorio);
     }
 }

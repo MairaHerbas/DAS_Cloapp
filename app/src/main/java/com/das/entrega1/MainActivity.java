@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 androidx.core.app.ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
         }
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic("global");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,17 +64,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (divisor != null) divisor.setVisibility(View.GONE);
-
-                    // Cargar el fragmento correspondiente en el hueco principal
-                    // Añade esta condición a tu bloque de "Cargar el fragmento correspondiente..."
+                    // Cambiamos el fragmento
                     if (id == R.id.nav_anadir) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AnadirFragment()).commit();
                     } else if (id == R.id.nav_crear_conjunto) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CrearConjuntoFragment()).commit();
                     } else if (id == R.id.nav_mis_conjuntos) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MisConjuntosFragment()).commit();
-                    } else if (id == R.id.nav_sugerencia) { // <--- NUEVA PANTALLA AQUÍ
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SugerenciaFragment()).commit();
+                    } else if (id == R.id.nav_mapa) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MapaFragment()).commit();
+                    }else if (id == R.id.nav_perfil) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PerfilFragment()).commit();
                     }
                 }
 
@@ -88,15 +89,12 @@ public class MainActivity extends AppCompatActivity {
             public void handleOnBackPressed() {
                 DrawerLayout elmenudesplegable = findViewById(R.id.drawer_layout);
 
-                // 1. Si el menú lateral está abierto, lo cerramos
                 if (elmenudesplegable.isDrawerOpen(GravityCompat.START)) {
                     elmenudesplegable.closeDrawer(GravityCompat.START);
                 }
-                // 2. Si hay Fragmentos en la pila, volvemos atrás
                 else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                     getSupportFragmentManager().popBackStack();
                 }
-                // 3. Si no hay menú ni fragmentos pendientes, cerramos la app con normalidad
                 else {
                     finish();
                 }
@@ -109,25 +107,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 1. Cargamos el menú en la barra superior (Del Labo 5)
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
-
-    // 2. ¿Qué pasa al pulsar el botón del idioma? (Del Labo 5 y Labo 2)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // Si pulsamos el botón de cambiar idioma
         if (id == R.id.menu_idioma) {
             cambiarIdioma();
             return true;
         }
 
-        // Si pulsamos el icono de la hamburguesa (del Labo 6)
         if (id == android.R.id.home) {
             DrawerLayout elmenudesplegable = findViewById(R.id.drawer_layout);
             elmenudesplegable.openDrawer(GravityCompat.START);
@@ -138,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // MultiIdioma
-    // NUEVO: Métoodo para leer de memoria el idioma al abrir/girar la app
     private void cargarIdioma() {
         android.content.SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         String idiomaGuardado = prefs.getString("idioma", "es"); // Español por defecto
@@ -149,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
         config.locale = locale;
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
-
-    // MODIFICADO: Ahora además de cambiarlo, lo guarda en la memoria
     private void cambiarIdioma() {
         android.content.SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         String idiomaActual = prefs.getString("idioma", "es");
@@ -160,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
             nuevoIdioma = "en";
         }
 
-        // ¡Guardamos el nuevo idioma para que no se olvide al girar!
         prefs.edit().putString("idioma", nuevoIdioma).apply();
 
         java.util.Locale locale = new java.util.Locale(nuevoIdioma);
@@ -168,8 +157,6 @@ public class MainActivity extends AppCompatActivity {
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = locale;
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-        // Este comando recarga la pantalla actual en la que estés
         recreate();
     }
 }
